@@ -29,7 +29,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         for(int i = 0;i<pictureSizes.size();i++){
             Log.d("size "+i,pictureSizes.get(i).width + "*" + pictureSizes.get(i).height);
         }
-        params.setPictureSize(320,240);
+        params.setPictureSize(800,600);
         mCamera.setParameters(params);
 
         // Install a SurfaceHolder.Callback so we get notified when the
@@ -44,7 +44,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // The Surface has been created, now tell the camera where to draw the preview.
         try {
             mCamera.setPreviewDisplay(holder);
-            mCamera.setDisplayOrientation(90);
             mCamera.startPreview();
         } catch (IOException e) {
             Log.d(TAG,"Error setting camera preview: " + e.getMessage());

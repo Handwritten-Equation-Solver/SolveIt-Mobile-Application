@@ -69,7 +69,6 @@ public class CameraScanner extends AppCompatActivity{
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            bitmap = rotateImage(bitmap, 90);
             uploadBitmap(bitmap);
         }
     };
