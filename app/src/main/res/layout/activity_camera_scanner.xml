@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_camera_scanner"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sagarb.solveit.CameraScanner"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/camera_preview"
+        android:layout_weight="1"/>
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:backgroundTint="@color/bg_screen2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/camera_preview"
+        android:onClick="takePicture"
+        android:layout_marginBottom="@dimen/dots_margin_bottom"
+        android:text="Scan"/>
+
+</RelativeLayout>
