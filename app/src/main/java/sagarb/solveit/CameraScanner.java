@@ -1,6 +1,7 @@
 package sagarb.solveit;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -89,6 +90,7 @@ public class CameraScanner extends AppCompatActivity{
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please Wait");
         progressDialog.setMessage("Loading..");
+        progressDialog.setCancelable(false);
 
         progressDialog.show();
 
@@ -98,8 +100,13 @@ public class CameraScanner extends AppCompatActivity{
                     public void onResponse(NetworkResponse response) {
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
-                            Toast.makeText(getApplicationContext(), obj.getString("solution"), Toast.LENGTH_SHORT).show();
                             Log.d("Resopnse","This is Response : "+obj.toString());
+
+                            Intent intent = new Intent(getBaseContext(), Solution.class);
+                            intent.putExtra("SOLUTION", obj.getString("solution"));
+                            intent.putExtra("EQUATION", obj.getString("equation"));
+                            startActivity(intent);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -110,7 +117,7 @@ public class CameraScanner extends AppCompatActivity{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
                         Log.d("Resopnse","This is Error Response : "+error.getMessage());
                         progressDialog.dismiss();
                     }

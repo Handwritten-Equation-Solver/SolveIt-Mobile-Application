@@ -18,7 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CameraScanner" android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".CameraScanner"
+            android:screenOrientation="landscape" />
+        <activity android:name=".Solution"/>
     </application>
 
 </manifest>
