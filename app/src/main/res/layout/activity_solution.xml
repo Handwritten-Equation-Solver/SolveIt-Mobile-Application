@@ -27,10 +27,21 @@
             android:textSize="25dp"/>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Solutions"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20dp"
+        android:background="@drawable/rounded_corner"
+        android:padding="15dp"/>
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:id="@+id/solutionListView"/>
+        android:id="@+id/solutionListView"
+        android:divider="#FFFFFF"
+        android:dividerHeight="4px"/>
 
 </LinearLayout>
