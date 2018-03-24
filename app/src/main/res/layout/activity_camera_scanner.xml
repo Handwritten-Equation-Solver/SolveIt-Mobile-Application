@@ -22,5 +22,15 @@
         android:onClick="takePicture"
         android:layout_marginBottom="@dimen/dots_margin_bottom"
         android:text="Scan"/>
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Colored"
+        android:backgroundTint="@color/bg_screen2"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="false"
+        android:layout_alignBottom="@id/camera_preview"
+        android:onClick="setIP"
+        android:layout_marginBottom="@dimen/dots_margin_bottom"
+        android:text="IP"/>
 
 </RelativeLayout>

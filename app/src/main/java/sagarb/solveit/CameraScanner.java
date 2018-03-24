@@ -26,11 +26,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class CameraScanner extends AppCompatActivity{
+public class CameraScanner extends AppCompatActivity {
 
     private Camera mCamera;
     private CameraPreview mcameraPreview;
@@ -46,22 +47,22 @@ public class CameraScanner extends AppCompatActivity{
         mCamera = getCameraInstance();
         mcameraPreview = new CameraPreview(this, mCamera);
 
-        FrameLayout preview = (FrameLayout)findViewById(R.id.camera_preview);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mcameraPreview);
     }
 
-    public Camera getCameraInstance(){
+    public Camera getCameraInstance() {
         Camera c = null;
         try {
             c = Camera.open();
-        }
-        catch (Exception e){
-            Toast.makeText(this,"Camera not available",Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Camera not available", Toast.LENGTH_LONG).show();
         }
         return c;
     }
 
-    public void takePicture(View v){
+    public void takePicture(View v) {
+        Log.d("URL is:", URLs.UPLOAD_URL);
         mCamera.takePicture(null, null, mPicture);
     }
 
@@ -73,6 +74,11 @@ public class CameraScanner extends AppCompatActivity{
             uploadBitmap(bitmap);
         }
     };
+
+    public void setIP(View v) {
+        Intent intent = new Intent(getApplicationContext(), setURL.class);
+        startActivity(intent);
+    }
 
     public static Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
@@ -98,27 +104,39 @@ public class CameraScanner extends AppCompatActivity{
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
+                        Log.d("Response", "This is Response : " + response.data.toString());
+
                         try {
-                            JSONObject obj = new JSONObject(new String(response.data));
-                            Log.d("Resopnse","This is Response : "+obj.toString());
+                            JSONObject obj = null;
+//                            try {
+//                                obj = new JSONObject(new String(response.data,"UTF-8"));
+//                            } catch (UnsupportedEncodingException e) {
+//                                Log.d("Response", "JSON problem : " + obj.toString());
+//                                e.printStackTrace();
+//                            }
+                            obj = new JSONObject(new String(response.data));
+                            Log.d("Response", "This is Response : " + obj.toString());
 
                             Intent intent = new Intent(getBaseContext(), Solution.class);
                             intent.putExtra("SOLUTION", obj.getString("solution"));
                             intent.putExtra("EQUATION", obj.getString("equation"));
+                            progressDialog.dismiss();
                             startActivity(intent);
 
                         } catch (JSONException e) {
+                            System.out.println("Could not retrieve solution.");
+                            Toast.makeText(getApplicationContext(), "Could not retrieve solution.", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                             e.printStackTrace();
                         }
-
-                        progressDialog.dismiss();
+                            // progressDialog.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
-                        Log.d("Resopnse","This is Error Response : "+error.getMessage());
+                        Log.d("Resopnse", "This is Error Response : " + error.getMessage());
                         progressDialog.dismiss();
                     }
                 }) {
@@ -148,7 +166,7 @@ public class CameraScanner extends AppCompatActivity{
         };
 
         //adding the request to volley
-        DefaultRetryPolicy  retryPolicy = new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         volleyMultipartRequest.setRetryPolicy(retryPolicy);
         Volley.newRequestQueue(this).add(volleyMultipartRequest);
     }

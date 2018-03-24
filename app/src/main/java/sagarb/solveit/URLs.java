@@ -5,7 +5,8 @@ package sagarb.solveit;
  */
 
 public class URLs {
-    public static final String UPLOAD_URL = "http://192.168.43.137:3000/imgupload";
+    public static String UPLOAD_URL = "http://192.168.43.136:3000/imgupload";
+    public static String ip = "192.168.43.136";
     public static final String IMAGE_PARAM_NAME = "digitimage";
 
 

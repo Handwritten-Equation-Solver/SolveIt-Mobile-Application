@@ -1,9 +1,14 @@
 package sagarb.solveit;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +34,11 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Ask camera permission requestCode=100
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);
 
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -57,7 +67,8 @@ public class HomeScreen extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchCameraScanner();
+                //  launchCameraScanner();
+                launchSetlUrl();
             }
         });
 
@@ -68,7 +79,8 @@ public class HomeScreen extends AppCompatActivity {
                 if (current < layouts.length) {
                     viewPager.setCurrentItem(current);
                 } else {
-                    launchCameraScanner();
+                    launchSetlUrl();
+                    // launchCameraScanner();
                 }
             }
         });
@@ -97,7 +109,13 @@ public class HomeScreen extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
-    private void launchCameraScanner(){
+    private void launchSetlUrl() {
+        startActivity(new Intent(getApplicationContext(), setURL.class));
+
+    }
+
+    private void launchCameraScanner() {
+
         Intent intent = new Intent(getBaseContext(), CameraScanner.class);
         startActivity(intent);
     }
